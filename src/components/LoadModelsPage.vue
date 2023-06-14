@@ -23,7 +23,7 @@ const { scene } = await useLoader(
   '/sheep_1.glb'
 ); //access .glb file
 
-scene.position.y = -10;
+scene.position.y = -20;
 console.log(scene.children[4].children[1], lightRef)
 
 const { onLoop } = useRenderLoop();
@@ -55,12 +55,13 @@ onLoop(({ delta, elapsed }) => {
         :far="1000"
       />
       <TresScene >
-        <TresMesh ref="boxRef"  v-bind="scene">
-        <TresBoxGeometry :args="[1, 1, 1]" />
-        <TresMeshNormalMaterial />
-      </TresMesh>
+        
+        <!-- <TresMesh ref="boxRef" v-bind="scene"> -->
+        <!-- <TresBoxGeometry :args="[1, 1, 1]" />
+        <TresMeshNormalMaterial /> -->
+      <!-- </TresMesh> -->
         <TresDirectionalLight
-          ref="lightRef"
+          
           :position="[0, 0, 4]"
           :intensity="1.5"
           :look-at="[0, 0, 0]"
