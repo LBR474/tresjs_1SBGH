@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, shallowRef, ShallowRef } from "vue";
+import { ref, shallowReactive, shallowRef, ShallowRef } from "vue";
 import { Color } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
@@ -24,6 +24,19 @@ console.log(scene.children[4].children[1], lightRef);
 
 const { onLoop } = useRenderLoop();
 
+const state = shallowReactive({
+  clearColor: '#201919',
+  shadows: true,
+  alpha: false,
+  physicallyCorrectLights: true,
+  // shadowMapType: BasicShadowMap,
+  // outputColorSpace: SRGBColorSpace,
+  // toneMapping: NoToneMapping,
+});
+
+
+
+
 onLoop(({ delta, elapsed }) => {
   if (scene) {
     scene.children[4].children[1].rotation.y += delta;
@@ -34,7 +47,7 @@ onLoop(({ delta, elapsed }) => {
 
 <template>
   <Suspense>
-    <TresCanvas
+    <TresCanvas v-bind="state" ref="context"
       :clear-color="bgColor"
       shadows
       alpha
@@ -42,7 +55,7 @@ onLoop(({ delta, elapsed }) => {
       power-preference="high-performance"
       preserve-drawing-buffer
     >
-      <!-- <OrbitControls /> -->
+      
 
       <TresPerspectiveCamera
         :position="[1, 4, 7]"
@@ -50,6 +63,7 @@ onLoop(({ delta, elapsed }) => {
         :near="0.1"
         :far="1000"
       />
+      <OrbitControls make-default/>
       <TresScene>
         <TresMesh ref="boxRef" v-bind="scene">
           <TresBoxGeometry :args="[1, 1, 1]" />
